@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Authorization_and_Authentication_WEB_API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210920031026_init")]
+    [Migration("20210920112604_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

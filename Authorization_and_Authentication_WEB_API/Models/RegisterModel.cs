@@ -8,20 +8,29 @@ namespace Authorization_and_Authentication_WEB_API.Models
 {
     public class RegisterModel
     {
+        [Required(ErrorMessage = "FirstName is required")]
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
         [Required(ErrorMessage = "Email is required")]
-      
+        [EmailAddress]
         public string UserName { get; set; }
 
 
-        [Required(ErrorMessage ="Email is required")]
+        [Required(ErrorMessage = "Email is required")]
         [EmailAddress]
         public string Email { get; set; }
 
 
         [Required(ErrorMessage ="Password is required")]
-        [StringLength(255, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]
+     
         public string Password { get; set; }
 
-       
+
+        [Required(ErrorMessage = "Address is required")]
+        public string Address { get; set; }
+
+
     }
 }

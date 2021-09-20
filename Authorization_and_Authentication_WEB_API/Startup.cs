@@ -35,7 +35,9 @@ namespace Authorization_and_Authentication_WEB_API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Authorization and Authentication API", Version = "v1" });
+               
             });
+           
             //Add Aplication DB Context EntityFramework
             services.AddDbContext<ApplicationDbContext>
               (options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr")));

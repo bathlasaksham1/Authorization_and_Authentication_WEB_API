@@ -24,7 +24,7 @@ namespace Authorization_and_Authentication_WEB_API.Controllers
         private readonly IConfiguration _configuration;
 
         //Constructor Injection
-        public AuthenticationController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,IConfiguration configuration)
+        public AuthenticationController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -36,18 +36,18 @@ namespace Authorization_and_Authentication_WEB_API.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             var userExist = await _userManager.FindByNameAsync(model.UserName);
-            if(userExist!=null)
-             return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already Exist" });
+            if (userExist != null)
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already Exist" });
             ApplicationUser user = new ApplicationUser()
             {
-                
-                
-                Email=model.Email,
-                SecurityStamp=Guid.NewGuid().ToString(),
-                UserName=model.UserName,
+                //FirstName = model.FirstName,
+
+                Email = model.Email,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                UserName = model.UserName,
             };
-            var result= await _userManager.CreateAsync(user, model.Password);
-           
+            var result = await _userManager.CreateAsync(user, model.Password);
+
             if (!result.Succeeded)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Registration Creation Failed" });
@@ -55,16 +55,17 @@ namespace Authorization_and_Authentication_WEB_API.Controllers
             return Ok(new Response { Status = "Success", Message = "Registration completed successfully" });
 
         }
+
         [HttpPost]
         [Route("Login")]
         //UserLogin Method
-        public async Task<IActionResult>Login([FromBody] LoginModel model)
+        public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
             var user = await _userManager.FindByNameAsync(model.UserName);
-            if(user!=null && await  _userManager.CheckPasswordAsync(user,model.Password))
+            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
-               
+
                 var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name,user.UserName),
@@ -93,5 +94,7 @@ namespace Authorization_and_Authentication_WEB_API.Controllers
             }
             return Unauthorized();
         }
+
+
     }
 }
